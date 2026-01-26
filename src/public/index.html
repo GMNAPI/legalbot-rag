@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LegalBot RAG - Demo Técnica</title>
+  <style>
+    :root {
+      --blanco: white;
+      --beige-white: #f0ece4;
+      --azul-oscuro: #001d2f;
+      --brand: #74fbc9;
+      --brandtext: #a7f7c8;
+      --azul-grisaceo: #1e2a3a;
+      --azulado-claro: #afb7c4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--azul-oscuro);
+      min-height: 100vh;
+      color: var(--beige-white);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      max-width: 200px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blanco);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--azulado-claro);
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--azul-grisaceo);
+      color: var(--brand);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid var(--brand);
+    }
+
+    .chat-container {
+      background: var(--azul-grisaceo);
+      border: 1px solid rgba(116, 251, 201, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .response-area {
+      min-height: 200px;
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(116, 251, 201, 0.1);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: var(--azulado-claro);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+      color: var(--brand);
+    }
+
+    .response {
+      display: none;
+    }
+
+    .response.visible {
+      display: block;
+    }
+
+    .answer {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--beige-white);
+      margin-bottom: 1.5rem;
+    }
+
+    .metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--azul-oscuro);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+    }
+
+    .meta-item.high { border-left: 3px solid var(--brand); }
+    .meta-item.medium { border-left: 3px solid #eab308; }
+    .meta-item.low { border-left: 3px solid #ef4444; }
+    .meta-item.source { border-left: 3px solid var(--brand); }
+
+    .loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+    }
+
+    .loading.visible {
+      display: flex;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--azul-oscuro);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      margin-top: 1rem;
+      color: var(--azulado-claro);
+    }
+
+    .suggestions {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(116, 251, 201, 0.1);
+    }
+
+    .suggestions-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--azulado-claro);
+      margin-bottom: 0.75rem;
+    }
+
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      background: rgba(116, 251, 201, 0.1);
+      border: 1px solid rgba(116, 251, 201, 0.3);
+      color: var(--brandtext);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip:hover {
+      background: rgba(116, 251, 201, 0.2);
+      border-color: var(--brand);
+    }
+
+    .input-area {
+      display: flex;
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: var(--azul-oscuro);
+      border: 1px solid rgba(116, 251, 201, 0.2);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      color: var(--blanco);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--azulado-claro);
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--brand);
+    }
+
+    button {
+      background: var(--brand);
+      color: var(--azul-oscuro);
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: var(--brandtext);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: var(--azulado-claro);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--azulado-claro);
+    }
+
+    .feature-icon {
+      color: var(--brand);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img
+        src="https://cdn.prod.website-files.com/674fb763968e67a82f37171c/6818d7a8f5b77a860c931b3f_logo.png"
+        alt="MIKE Logo"
+        class="logo"
+      >
+      <h1>LegalBot RAG</h1>
+      <p class="subtitle">Demo técnica - Sistema RAG para derecho inmobiliario</p>
+      <span class="badge">Prueba de concepto</span>
+    </header>
+
+    <div class="chat-container">
+      <div class="response-area">
+        <div class="empty-state" id="emptyState">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+          <span>Haz una pregunta sobre derecho inmobiliario</span>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <span class="loading-text">Consultando fuentes legales...</span>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="response" id="response">
+          <div class="answer" id="answer"></div>
+          <div class="metadata" id="metadata"></div>
+        </div>
+      </div>
+
+      <div class="suggestions">
+        <div class="suggestions-title">Preguntas de ejemplo</div>
+        <div class="suggestion-chips">
+          <span class="chip" onclick="askQuestion(this.textContent)">¿Cuánto preaviso para no renovar alquiler?</span>
+          <span class="chip" onclick="askQuestion(this.textContent)">¿Quién paga las obras de mantenimiento?</span>
+          <span class="chip" onclick="askQuestion(this.textContent)">¿Puedo poner negocio en mi piso?</span>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input
+          type="text"
+          id="questionInput"
+          placeholder="Escribe tu pregunta legal..."
+          onkeypress="if(event.key === 'Enter') sendQuestion()"
+        >
+        <button id="sendBtn" onclick="sendQuestion()">Enviar</button>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">&#10003;</span>
+        <span>Citas obligatorias</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#10003;</span>
+        <span>Validación de fuentes</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#10003;</span>
+        <span>LAU + LPH</span>
+      </div>
+    </div>
+
+    <footer>
+      <p>Demo técnica &middot; <a href="https://github.com/GMNAPI/legalbot-rag" target="_blank">Ver código en GitHub</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const input = document.getElementById('questionInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const emptyState = document.getElementById('emptyState');
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    const response = document.getElementById('response');
+    const answerEl = document.getElementById('answer');
+    const metadata = document.getElementById('metadata');
+
+    function askQuestion(question) {
+      input.value = question;
+      sendQuestion();
+    }
+
+    function createMetaItem(className, label, value) {
+      const div = document.createElement('div');
+      div.className = 'meta-item ' + className;
+
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = label;
+
+      const valueStrong = document.createElement('strong');
+      valueStrong.textContent = value;
+
+      div.appendChild(labelSpan);
+      div.appendChild(valueStrong);
+      return div;
+    }
+
+    async function sendQuestion() {
+      const question = input.value.trim();
+      if (!question) return;
+
+      // UI state: loading
+      emptyState.classList.remove('visible');
+      emptyState.style.display = 'none';
+      loading.classList.add('visible');
+      error.classList.remove('visible');
+      response.classList.remove('visible');
+      sendBtn.disabled = true;
+
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+
+        if (!res.ok) throw new Error('Error en la respuesta del servidor');
+
+        const data = await res.json();
+
+        // Show response using safe DOM methods
+        answerEl.textContent = data.answer;
+
+        // Clear metadata and rebuild using DOM methods
+        while (metadata.firstChild) {
+          metadata.removeChild(metadata.firstChild);
+        }
+
+        if (data.confidence) {
+          const labels = { high: 'Alta', medium: 'Media', low: 'Baja', none: 'Sin datos' };
+          const confidenceLabel = labels[data.confidence] || data.confidence;
+          metadata.appendChild(createMetaItem(data.confidence, 'Confianza:', confidenceLabel));
+        }
+
+        if (data.sources && data.sources.length > 0) {
+          const sourcesList = data.sources.map(function(s) {
+            return s.article + ', ' + s.law;
+          }).join(' | ');
+          metadata.appendChild(createMetaItem('source', 'Fuentes:', sourcesList));
+        }
+
+        // UI state: response
+        loading.classList.remove('visible');
+        response.classList.add('visible');
+
+      } catch (err) {
+        loading.classList.remove('visible');
+        error.textContent = 'Error: ' + err.message;
+        error.classList.add('visible');
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

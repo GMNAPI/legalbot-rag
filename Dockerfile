@@ -25,8 +25,9 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --prod --frozen-lockfile
 
-# Copy built files and data
+# Copy built files, static assets, and data
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/public ./dist/public
 COPY --from=builder /app/data ./data
 
 # Create non-root user

@@ -7,9 +7,15 @@
 
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { serverConfig } from './config.js';
 import { initVectorStore } from './retrieval/index.js';
 import { registerChatRoutes } from './api/chat.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 async function main(): Promise<void> {
   const app = Fastify({
@@ -36,8 +42,14 @@ async function main(): Promise<void> {
   // Register routes
   await registerChatRoutes(app);
 
-  // Root endpoint
-  app.get('/', async () => ({
+  // Root endpoint - serve UI
+  const indexHtml = readFileSync(join(__dirname, 'public', 'index.html'), 'utf-8');
+  app.get('/', async (request, reply) => {
+    reply.type('text/html').send(indexHtml);
+  });
+
+  // API info endpoint
+  app.get('/api', async () => ({
     name: 'LegalBot RAG',
     version: '1.0.0',
     description: 'RAG chatbot for Spanish real estate law',
