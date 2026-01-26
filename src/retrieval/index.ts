@@ -9,6 +9,7 @@ export {
   deleteByLaw,
   getStats,
   clearCollection,
+  isLocalMode,
 } from './vectorStore.js';
 
 export {

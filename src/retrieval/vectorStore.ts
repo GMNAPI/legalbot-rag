@@ -3,23 +3,31 @@
  *
  * Supports two modes:
  * 1. Server mode: Connects to Chroma server (production)
- * 2. Ephemeral mode: In-memory storage (development/demo without Docker)
+ * 2. Local mode: JSON file storage (development/demo without Docker)
  */
 
 import { ChromaClient, Collection, IncludeEnum } from 'chromadb';
 import { chromaConfig } from '../config.js';
-import type { LegalChunk, EmbeddedChunk, RetrievalResult } from '../types.js';
+import type { EmbeddedChunk, RetrievalResult } from '../types.js';
+import {
+  initLocalVectorStore,
+  addChunksLocal,
+  queryChunksLocal,
+  getStatsLocal,
+  clearStoreLocal,
+  deleteByLawLocal,
+} from './localVectorStore.js';
 
 let client: ChromaClient | null = null;
 let collection: Collection | null = null;
-let isEphemeral = false;
+let useLocalStore = false;
 
 /**
  * Initialize the Chroma client and collection
- * Falls back to ephemeral mode if server is unavailable
+ * Falls back to local JSON store if server is unavailable
  */
 export async function initVectorStore(): Promise<void> {
-  // Try server mode first
+  // Try Chroma server first
   try {
     client = new ChromaClient({
       path: `http://${chromaConfig.host}:${chromaConfig.port}`,
@@ -36,33 +44,21 @@ export async function initVectorStore(): Promise<void> {
       },
     });
 
-    isEphemeral = false;
-    console.log(`Vector store initialized (server mode): "${chromaConfig.collection}"`);
+    useLocalStore = false;
+    console.log(`Vector store initialized (Chroma): "${chromaConfig.collection}"`);
   } catch {
-    // Fall back to ephemeral mode
-    console.log('Chroma server not available, using ephemeral mode (in-memory)');
-
-    client = new ChromaClient();
-
-    collection = await client.getOrCreateCollection({
-      name: chromaConfig.collection,
-      metadata: {
-        description: 'Spanish real estate legal documents',
-        'hnsw:space': 'cosine',
-      },
-    });
-
-    isEphemeral = true;
-    console.log(`Vector store initialized (ephemeral mode): "${chromaConfig.collection}"`);
-    console.log('Note: Data will be lost when the process exits.');
+    // Fall back to local JSON store
+    console.log('Chroma server not available, using local JSON store');
+    useLocalStore = true;
+    await initLocalVectorStore();
   }
 }
 
 /**
- * Check if running in ephemeral mode
+ * Check if using local store (no Chroma)
  */
-export function isEphemeralMode(): boolean {
-  return isEphemeral;
+export function isLocalMode(): boolean {
+  return useLocalStore;
 }
 
 /**
@@ -82,6 +78,10 @@ async function getCollection(): Promise<Collection> {
  * Add embedded chunks to the vector store
  */
 export async function addChunks(chunks: EmbeddedChunk[]): Promise<void> {
+  if (useLocalStore) {
+    return addChunksLocal(chunks);
+  }
+
   const coll = await getCollection();
 
   const ids = chunks.map(c => c.id);
@@ -116,6 +116,10 @@ export async function queryChunks(
   topK: number = 5,
   filter?: Record<string, string>
 ): Promise<RetrievalResult[]> {
+  if (useLocalStore) {
+    return queryChunksLocal(queryEmbedding, topK, filter);
+  }
+
   const coll = await getCollection();
 
   const results = await coll.query({
@@ -169,6 +173,10 @@ export async function queryChunks(
  * Delete all chunks from a specific law
  */
 export async function deleteByLaw(lawCode: string): Promise<void> {
+  if (useLocalStore) {
+    return deleteByLawLocal(lawCode);
+  }
+
   const coll = await getCollection();
 
   await coll.delete({
@@ -182,6 +190,10 @@ export async function deleteByLaw(lawCode: string): Promise<void> {
  * Get collection statistics
  */
 export async function getStats(): Promise<{ count: number }> {
+  if (useLocalStore) {
+    return getStatsLocal();
+  }
+
   const coll = await getCollection();
   const count = await coll.count();
   return { count };
@@ -191,6 +203,10 @@ export async function getStats(): Promise<{ count: number }> {
  * Clear all data from the collection
  */
 export async function clearCollection(): Promise<void> {
+  if (useLocalStore) {
+    return clearStoreLocal();
+  }
+
   if (!client) {
     await initVectorStore();
   }
