@@ -120,6 +120,8 @@ export async function queryChunksLocal(
 ): Promise<RetrievalResult[]> {
   if (!initialized) await initLocalVectorStore();
 
+  console.log(`[LocalStore] Querying ${storeData.chunks.length} chunks, topK=${topK}`);
+
   // Filter chunks if filter provided
   let candidates = storeData.chunks;
   if (filter) {
@@ -145,7 +147,12 @@ export async function queryChunksLocal(
   // Sort by score descending and take top K
   scored.sort((a, b) => b.score - a.score);
 
-  return scored.slice(0, topK);
+  const topResults = scored.slice(0, topK);
+  if (topResults.length > 0) {
+    console.log(`[LocalStore] Top scores: ${topResults.map(r => r.score.toFixed(3)).join(', ')}`);
+  }
+
+  return topResults;
 }
 
 /**
