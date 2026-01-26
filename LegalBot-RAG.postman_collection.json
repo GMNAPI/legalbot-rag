@@ -333,8 +333,9 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3000",
-			"type": "string"
+			"value": "https://legalbot-rag-production.up.railway.app",
+			"type": "string",
+			"description": "URL base de la API. Cambiar a http://localhost:3000 para desarrollo local."
 		}
 	]
 }

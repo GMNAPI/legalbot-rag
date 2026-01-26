@@ -1,6 +1,24 @@
 # LegalBot RAG
 
-> A RAG-based chatbot for Spanish real estate law. Technical demo for MIKE interview.
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://legalbot-rag-production.up.railway.app)
+[![GitHub](https://img.shields.io/github/license/GMNAPI/legalbot-rag)](LICENSE)
+
+> Sistema RAG para derecho inmobiliario español con citas obligatorias y validación de fuentes.
+
+## 🚀 Demo en Vivo
+
+**URL**: https://legalbot-rag-production.up.railway.app
+
+```bash
+# Probar el endpoint de chat
+curl -X POST https://legalbot-rag-production.up.railway.app/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question": "¿Cuánto preaviso necesito para no renovar un contrato de alquiler?"}'
+```
+
+También disponible la [colección de Postman](./LegalBot-RAG.postman_collection.json) para pruebas interactivas.
+
+---
 
 ## Overview
 
@@ -32,20 +50,27 @@ LegalBot is a Retrieval-Augmented Generation (RAG) system that answers questions
 
 - Node.js 20+
 - pnpm
-- Docker (for Chroma)
 - OpenAI API key
 
-### Setup
+### Setup (Local Vector Store - Sin Docker)
 
 ```bash
 # Clone and install
+git clone https://github.com/GMNAPI/legalbot-rag.git
 cd legalbot-rag
 pnpm install
 
-# Copy environment file
+# Configure environment
 cp .env.example .env
 # Edit .env and add your OPENAI_API_KEY
 
+# Start the server (usa vector store local pre-cargado)
+pnpm dev
+```
+
+### Setup Alternativo (Con Chroma)
+
+```bash
 # Start Chroma (vector database)
 docker-compose up -d chroma
 
@@ -59,8 +84,13 @@ pnpm dev
 ### API Usage
 
 ```bash
-# Chat endpoint
+# Chat endpoint (local)
 curl -X POST http://localhost:3000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question": "¿Cuánto preaviso necesito para no renovar un contrato de alquiler?"}'
+
+# Chat endpoint (producción)
+curl -X POST https://legalbot-rag-production.up.railway.app/chat \
   -H "Content-Type: application/json" \
   -d '{"question": "¿Cuánto preaviso necesito para no renovar un contrato de alquiler?"}'
 
