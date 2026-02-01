@@ -1,0 +1,69 @@
+## Description
+Create a GitHub Actions workflow that runs type checking, tests, build, and optionally evaluation on every commit.
+
+## Context
+To maintain code quality and catch regressions early, we need a CI pipeline that:
+- Runs TypeScript type checking
+- Runs Vitest test suite
+- Builds the project
+- Optionally runs evaluation (configurable)
+- Blocks PR merges on failures
+
+## Tasks
+- [ ] Create `.github/workflows/ci.yml` workflow file
+- [ ] Add checkout step
+- [ ] Add setup Node.js step
+- [ ] Add pnpm setup step
+- [ ] Add install dependencies step
+- [ ] Add typecheck step: `pnpm typecheck` (or `tsc --noEmit`)
+- [ ] Add test step: `pnpm test`
+- [ ] Add build step: `pnpm build`
+- [ ] Add evaluation step (optional, only on main branch): `pnpm eval`
+- [ ] Configure to run on: push (main), pull_request
+- [ ] Add status checks (required for PR merge)
+- [ ] Document why eval is optional in PR context
+
+## Acceptance Criteria
+- Workflow file `.github/workflows/ci.yml` exists and is valid YAML
+- Runs on: push to main, all pull requests
+- Steps in order: checkout, setup node, setup pnpm, install, typecheck, test, build, eval (main only)
+- All steps have appropriate error handling
+- Workflow succeeds on clean commit without errors
+- Workflow fails appropriately on TypeScript errors or test failures
+- Evaluation runs only on main branch (not on every PR) to avoid delays
+- Documentation in workflow comments explains the design decision
+
+## Example Workflow Structure
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: Run evaluation (main only)
+        if: github.ref == 'refs/heads/main'
+        run: pnpm eval
+```
+
+## Notes
+- This is part of Milestone 4
+- Evaluation step is optional in PRs to keep CI fast
+- Evaluation results on main can be tracked for regression detection
+- Consider adding evaluation report artifact upload for future analysis
