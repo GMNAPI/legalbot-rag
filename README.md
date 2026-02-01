@@ -211,7 +211,15 @@ pnpm test
 
 # Watch mode
 pnpm test:watch
+
+# Run evaluation system
+pnpm eval
+
+# Detailed evaluation output
+pnpm eval --verbose
 ```
+
+See [docs/evaluation.md](./docs/evaluation.md) for details on the evaluation system.
 
 ## Production Considerations
 
