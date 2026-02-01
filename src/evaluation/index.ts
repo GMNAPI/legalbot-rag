@@ -4,26 +4,28 @@
  * Command-line interface for running evaluations
  */
 
+// Load environment variables first
 import 'dotenv/config';
-import { evaluationDataset } from './dataset.js';
-import { runEvaluation } from './runner.js';
-import { formatReport, exportJSON, generateReportFilename } from './reporter.js';
 import type { EvaluationOptions } from './types.js';
 
 /**
  * Parse command line arguments
  */
-function parseArgs(): EvaluationOptions {
+function parseArgs(): { help: boolean; options: EvaluationOptions } {
   const args = process.argv.slice(2);
   const options: EvaluationOptions = {
     exportJson: true,
-    exportPath: generateReportFilename()
+    exportPath: ''  // Will be set later
   };
+  let help = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
-    if (arg === '--tags' || arg === '-t') {
+    if (arg === '--help' || arg === '-h') {
+      help = true;
+      break;
+    } else if (arg === '--tags' || arg === '-t') {
       const tags = args[++i];
       if (tags) {
         options.filterTags = tags.split(',').map(t => t.trim());
@@ -40,13 +42,10 @@ function parseArgs(): EvaluationOptions {
       if (output) {
         options.exportPath = output;
       }
-    } else if (arg === '--help' || arg === '-h') {
-      printHelp();
-      process.exit(0);
     }
   }
 
-  return options;
+  return { help, options };
 }
 
 /**
@@ -86,15 +85,30 @@ Examples:
  * Main evaluation function
  */
 async function main(): Promise<void> {
-  console.log('Starting LegalBot RAG Evaluation...\n');
+  const { help, options } = parseArgs();
 
-  const options = parseArgs();
+  if (help) {
+    printHelp();
+    process.exit(0);
+  }
+
+  console.log('Starting LegalBot RAG Evaluation...\n');
 
   // Validate OpenAI API key
   if (!process.env['OPENAI_API_KEY']) {
     console.error('Error: OPENAI_API_KEY environment variable is not set.');
     console.error('Please set it in your .env file or environment.');
     process.exit(1);
+  }
+
+  // Import modules that depend on config (after env vars are validated)
+  const { evaluationDataset } = await import('./dataset.js');
+  const { runEvaluation } = await import('./runner.js');
+  const { formatReport, exportJSON, generateReportFilename } = await import('./reporter.js');
+
+  // Set default export path if not specified
+  if (!options.exportPath) {
+    options.exportPath = generateReportFilename();
   }
 
   try {
