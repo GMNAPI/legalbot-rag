@@ -213,6 +213,64 @@ pnpm test
 pnpm test:watch
 ```
 
+## Evaluation System
+
+The evaluation system provides comprehensive testing and validation of the RAG pipeline. See [docs/evaluation.md](docs/evaluation.md) for full documentation.
+
+### Quick Start
+
+```bash
+# Run all evaluation cases
+pnpm eval
+
+# Run only LAU (rental law) cases
+pnpm eval --tags LAU
+
+# Run first 5 cases (quick test)
+pnpm eval --max 5
+
+# Show help
+pnpm eval --help
+```
+
+### Dataset
+
+**19 test cases** covering:
+- 7 LAU cases (Spanish rental law)
+- 4 LPH cases (Spanish horizontal property law)
+- 5 refusal cases (out-of-scope questions)
+- 3 ambiguous cases (edge cases)
+
+### Metrics
+
+Each case is evaluated on:
+- **Citation Accuracy** (0-1): Ratio of valid citations
+- **Citation Coverage** (0-1): Ratio of expected citations found
+- **Refusal Correctness** (0/1): Correct refusal behavior
+- **Retrieval Similarity Top-1** (0-1): Best chunk similarity score
+- **Latency** (ms): Query processing time
+
+### Sample Output
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║            LegalBot RAG - Evaluation Report                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+Summary:
+  Total Cases:              19
+  Passed:                   18 (95%)
+  Failed:                   1 (5%)
+  
+  Avg Citation Accuracy:    92%
+  Avg Citation Coverage:    88%
+  Refusal Correctness:      100%
+  Avg Retrieval Sim (Top1): 0.78
+  Avg Latency:              287ms
+
+Report exported to: reports/eval-2026-02-01.json
+```
+
 ## Production Considerations
 
 For a production system like MIKE, I would add:
