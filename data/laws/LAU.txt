@@ -28,6 +28,17 @@ Artículo 6. Naturaleza de las normas.
 1. Son nulas, y se tendrán por no puestas, las estipulaciones que modifiquen en perjuicio del arrendatario las normas del presente Título, salvo los casos en que la propia norma expresamente lo autorice.
 2. Quedan exceptuadas de la regla anterior las modificaciones que se refieran a los arrendamientos de viviendas cuya superficie sea superior a 300 metros cuadrados o en los que la renta inicial en cómputo anual exceda de 5,5 veces el salario mínimo interprofesional en cómputo anual.
 
+Artículo 7. Condición de arrendatario.
+1. Sólo se reputará arrendatario quien figure como tal en el contrato.
+2. Cuando la vivienda arrendada sea la vivienda habitual de ambos cónyuges, la suscripción del contrato de arrendamiento por uno solo de ellos no excluye su uso por el otro, que tendrá la condición de parte del contrato, aun cuando no lo haya suscrito.
+3. Lo dispuesto en el apartado anterior será también de aplicación en favor de la persona que hubiera venido conviviendo con el arrendatario de forma permanente en análoga relación de afectividad a la de cónyuge, con independencia de su orientación sexual, durante, al menos, los dos años anteriores, salvo que hubieran tenido descendencia en común, en cuyo caso bastará la mera convivencia.
+
+Artículo 8. Cesión del contrato y subarriendo.
+1. El contrato no se podrá ceder por el arrendatario sin el consentimiento escrito del arrendador. En caso de cesión, el cesionario se subrogará en la posición del cedente frente al arrendador.
+2. La vivienda arrendada sólo se podrá subarrendar de forma parcial y previo consentimiento escrito del arrendador. El subarriendo se regirá por lo dispuesto en el presente Título para el arrendamiento cuando la parte de la finca subarrendada se destine por el subarrendatario a la finalidad indicada en el artículo 2.1. De no darse esta condición, se regirá por lo pactado entre las partes.
+3. El derecho del subarrendatario se extinguirá, en todo caso, cuando lo haga el del arrendatario que subarrendó.
+4. El precio del subarriendo no podrá exceder, en ningún caso, del que corresponda al arrendamiento.
+
 CAPÍTULO II. De la duración del contrato
 
 Artículo 9. Plazo mínimo.
@@ -46,6 +57,28 @@ Artículo 12. Desistimiento y vencimiento en caso de matrimonio o convivencia de
 1. Si el arrendatario manifestase su voluntad de no renovar el contrato o de desistir de él, sin el consentimiento del cónyuge que conviviera con dicho arrendatario, podrá el arrendamiento continuar en beneficio de dicho cónyuge. A estos efectos, podrá el arrendador requerir al cónyuge del arrendatario, en el plazo de treinta días siguientes a la recepción de la comunicación de desistimiento o no renovación, para que manifieste su voluntad al respecto.
 2. Lo dispuesto en el apartado anterior será también de aplicación en favor de la persona que hubiera venido conviviendo con el arrendatario de forma permanente en análoga relación de afectividad a la de cónyuge, con independencia de su orientación sexual, durante, al menos, los dos años anteriores al desistimiento o no renovación, salvo que hubieran tenido descendencia en común, en cuyo caso bastará la mera convivencia.
 
+Artículo 13. Resolución del derecho del arrendador.
+Si durante los cinco primeros años de duración del contrato, o siete años si el arrendador fuese persona jurídica, el derecho del arrendador quedara resuelto por el ejercicio de un retracto convencional, la apertura de una sustitución fideicomisaria, la enajenación forzosa derivada de una ejecución hipotecaria o de sentencia judicial o el ejercicio de un derecho de opción de compra, el arrendatario tendrá derecho, en todo caso, a continuar en el arrendamiento hasta que se cumplan cinco años o siete años respectivamente, sin perjuicio de la facultad de no renovación prevista en el artículo 9.3. Cuando supere dicho plazo, el arrendamiento quedará extinguido.
+
+Artículo 14. Enajenación de la vivienda arrendada.
+El adquirente de una vivienda arrendada quedará subrogado en los derechos y obligaciones del arrendador durante los cinco primeros años de vigencia del contrato, o siete años si el arrendador anterior fuese persona jurídica, aun cuando concurran en él los requisitos del artículo 34 de la Ley Hipotecaria. Si la duración pactada fuera superior a cinco años, o superior a siete años si el arrendador anterior fuese persona jurídica, el adquirente quedará subrogado por la totalidad de la duración pactada, salvo que concurran en él los requisitos del artículo 34 de la Ley Hipotecaria. En este caso, el adquirente sólo deberá soportar el arrendamiento durante el tiempo que reste para el transcurso del plazo de cinco años, o siete años en caso de persona jurídica, computándose el plazo desde el inicio del arrendamiento.
+
+Artículo 15. Separación, divorcio o nulidad del matrimonio del arrendatario.
+1. En los casos de nulidad del matrimonio, separación judicial o divorcio del arrendatario, el cónyuge no arrendatario podrá continuar en el uso de la vivienda arrendada cuando le sea atribuida de acuerdo con lo dispuesto en la legislación civil que resulte de aplicación.
+2. La voluntad del cónyuge de continuar en el uso de la vivienda deberá ser comunicada al arrendador en el plazo de dos meses desde que fue notificada la resolución judicial correspondiente, acompañando copia de dicha resolución o de la parte de la misma que afecte al uso de la vivienda.
+
+Artículo 16. Muerte del arrendatario.
+1. En caso de muerte del arrendatario, podrán subrogarse en el contrato:
+a) El cónyuge del arrendatario que al tiempo del fallecimiento conviviera con él.
+b) La persona que hubiera venido conviviendo con el arrendatario de forma permanente en análoga relación de afectividad a la de cónyuge, con independencia de su orientación sexual, durante, al menos, los dos años anteriores al tiempo del fallecimiento, salvo que hubieran tenido descendencia en común, en cuyo caso bastará la mera convivencia.
+c) Los descendientes del arrendatario que en el momento de su fallecimiento estuvieran sujetos a su patria potestad o tutela, o hubiesen convivido habitualmente con él durante los dos años precedentes.
+d) Los ascendientes del arrendatario que hubieran convivido habitualmente con él durante los dos años precedentes a su fallecimiento.
+e) Los hermanos del arrendatario en quienes concurra la circunstancia prevista en la letra anterior.
+f) Las personas distintas de las mencionadas en las letras anteriores que sufran una minusvalía igual o superior al 65 por ciento, siempre que tengan una relación de parentesco hasta el tercer grado colateral con el arrendatario y hayan convivido con éste durante los dos años anteriores al fallecimiento.
+2. Si al tiempo del fallecimiento del arrendatario no existiera ninguna de estas personas, el arrendamiento quedará extinguido.
+3. Si existieran varias de las personas mencionadas, a falta de acuerdo unánime sobre quién de ellos será el beneficiario de la subrogación, regirá el orden de prelación establecido en el apartado 1 de este artículo, salvo en que los padres septuagenarios serán preferidos a los descendientes. Entre los descendientes y entre los ascendientes, tendrá preferencia el más próximo en grado, y entre los hermanos, el de doble vínculo sobre el medio hermano.
+4. El arrendamiento se extinguirá si en el plazo de tres meses desde la muerte del arrendatario el arrendador no recibe notificación por escrito del hecho del fallecimiento, con certificado registral de defunción, y de la identidad del subrogado, indicando su parentesco con el fallecido y ofreciendo, en su caso, suficiente acreditación de cumplir los requisitos legales para subrogarse. Si la extinción se produce, todos los que pudieran suceder al arrendatario, salvo los que renuncien a su opción notificándolo por escrito al arrendador en el plazo del mes siguiente al fallecimiento, quedarán solidariamente obligados al pago de la renta de dichos tres meses.
+
 CAPÍTULO III. De la renta
 
 Artículo 17. Determinación de la renta.
@@ -63,6 +96,13 @@ Artículo 19. Elevación de renta por mejoras.
 1. La realización por el arrendador de obras de mejora, transcurridos cinco años de duración del contrato, o siete años si el arrendador fuese persona jurídica, le dará derecho, salvo pacto en contrario, a elevar la renta anual en la cuantía que resulte de aplicar al capital invertido en la mejora, el tipo de interés legal del dinero en el momento de la terminación de las obras incrementado en tres puntos, sin que pueda exceder el aumento del veinte por ciento de la renta vigente en aquel momento.
 2. Para el cálculo del capital invertido, deberán descontarse las subvenciones públicas obtenidas para la realización de la obra.
 3. Cuando la mejora afecte a varias fincas de un edificio en régimen de propiedad horizontal, el arrendador deberá repartir proporcionalmente entre todas ellas el capital invertido, aplicando, a tal efecto, las cuotas de participación que correspondan a cada una de aquellas.
+
+Artículo 20. Gastos generales y de servicios individuales.
+1. Las partes podrán pactar que los gastos generales para el adecuado sostenimiento del inmueble, sus servicios, tributos, cargas y responsabilidades que no sean susceptibles de individualización y que correspondan a la vivienda arrendada o a sus accesorios, sean a cargo del arrendatario.
+2. En edificios en régimen de propiedad horizontal tales gastos serán los que correspondan a la finca arrendada en función de su cuota de participación.
+3. Para su validez, este pacto deberá constar por escrito y determinar el importe anual de dichos gastos a la fecha del contrato. El pacto que se refiera a tributos no afectará a la Administración.
+4. Durante los cinco primeros años de vigencia del contrato, o durante los siete primeros años si el arrendador fuese persona jurídica, la suma que el arrendatario haya de abonar por el concepto a que se refiere el apartado anterior, con excepción de los tributos, sólo podrá incrementarse anualmente, y nunca en un porcentaje superior al doble de aquel en que pueda incrementarse la renta conforme a lo dispuesto en el artículo 18.
+5. Los gastos por servicios con que cuente la finca arrendada que se individualicen mediante aparatos contadores serán en todo caso de cuenta del arrendatario.
 
 CAPÍTULO IV. De los derechos y obligaciones de las partes
 

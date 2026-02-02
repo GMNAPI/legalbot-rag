@@ -51,11 +51,14 @@ function citationsMatch(expected: string, actual: string): boolean {
   // Check if article numbers match
   const articlesMatch = expectedArticle === actualArticle;
   
-  // Check if law names match (fuzzy - LAU vs Ley 29/1994)
-  const lawsMatch = expectedLaw.includes(actualLaw) || 
+  // Check if law names match (fuzzy - LAU vs Ley 29/1994, LPH vs Ley 49/1960)
+  const isLAU = (s: string) => s.includes('lau') || s.includes('29/1994') || s.includes('arrendamientos urbanos');
+  const isLPH = (s: string) => s.includes('lph') || s.includes('49/1960') || s.includes('propiedad horizontal');
+
+  const lawsMatch = expectedLaw.includes(actualLaw) ||
                     actualLaw.includes(expectedLaw) ||
-                    (expectedLaw.includes('lau') && actualLaw.includes('lau')) ||
-                    (expectedLaw.includes('lph') && actualLaw.includes('lph'));
+                    (isLAU(expectedLaw) && isLAU(actualLaw)) ||
+                    (isLPH(expectedLaw) && isLPH(actualLaw));
   
   return articlesMatch && lawsMatch;
 }
