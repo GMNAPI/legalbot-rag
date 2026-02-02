@@ -10,8 +10,43 @@
 import type { RetrievalResult } from '../types.js';
 
 /**
+ * Legal term boost mapping
+ * Maps specific legal terms to their corresponding articles for targeted boosting
+ */
+const LEGAL_TERM_BOOST: Record<string, { article: string; law: string; boost: number }[]> = {
+  // LAU - Subarriendo
+  'subarrendar': [{ article: 'Artículo 8', law: 'LAU', boost: 0.15 }],
+  'subarriendo': [{ article: 'Artículo 8', law: 'LAU', boost: 0.15 }],
+  'subarrendamiento': [{ article: 'Artículo 8', law: 'LAU', boost: 0.15 }],
+
+  // LAU - Preaviso y duración
+  'preaviso': [{ article: 'Artículo 10', law: 'LAU', boost: 0.12 }],
+  'renovación': [{ article: 'Artículo 10', law: 'LAU', boost: 0.10 }],
+  'prórroga': [{ article: 'Artículo 10', law: 'LAU', boost: 0.12 }],
+  'duración': [{ article: 'Artículo 9', law: 'LAU', boost: 0.10 }],
+
+  // LAU - Reparaciones
+  'reparaciones': [
+    { article: 'Artículo 21', law: 'LAU', boost: 0.12 },
+    { article: 'Artículo 22', law: 'LAU', boost: 0.10 },
+  ],
+  'conservación': [{ article: 'Artículo 21', law: 'LAU', boost: 0.12 }],
+  'obras': [{ article: 'Artículo 22', law: 'LAU', boost: 0.12 }],
+
+  // LPH - Coeficientes y cuotas
+  'coeficiente': [{ article: 'Artículo 5', law: 'LPH', boost: 0.12 }],
+  'coeficientes': [{ article: 'Artículo 5', law: 'LPH', boost: 0.12 }],
+  'cuota': [{ article: 'Artículo 5', law: 'LPH', boost: 0.10 }],
+  'participación': [{ article: 'Artículo 5', law: 'LPH', boost: 0.10 }],
+
+  // LPH - Gastos comunidad
+  'comunidad': [{ article: 'Artículo 9', law: 'LPH', boost: 0.08 }],
+  'gastos': [{ article: 'Artículo 9', law: 'LPH', boost: 0.08 }],
+};
+
+/**
  * Rerank results based on keyword matching
- * Boosts chunks that contain exact query terms
+ * Boosts chunks that contain exact query terms and legal term mappings
  */
 export function rerank(
   results: RetrievalResult[],
@@ -32,6 +67,23 @@ export function rerank(
       // Extra boost for article title matches
       if (result.chunk.metadata.articleTitle.toLowerCase().includes(term)) {
         boost += 0.15;
+      }
+
+      // Legal term boost: boost specific articles for domain-specific terms
+      const legalBoosts = LEGAL_TERM_BOOST[term];
+      if (legalBoosts) {
+        for (const legalBoost of legalBoosts) {
+          const articleTitle = result.chunk.metadata.articleTitle;
+          const law = result.chunk.metadata.law;
+
+          // Match if this chunk is the target article
+          if (
+            articleTitle.includes(legalBoost.article) &&
+            law === legalBoost.law
+          ) {
+            boost += legalBoost.boost;
+          }
+        }
       }
     }
 

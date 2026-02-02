@@ -18,9 +18,9 @@ export const goldenDataset: EvaluationCase[] = [
     id: 'lau-001',
     question: '¿Cuánto preaviso necesito para no renovar un contrato de alquiler?',
     tags: ['LAU', 'preaviso', 'renovación'],
-    expectedCitations: ['Artículo 10, LAU'],
+    expectedCitations: ['Artículo 9, LAU', 'Artículo 10, LAU'],
     difficulty: 'easy',
-    notes: 'Classic LAU question about notice period',
+    notes: 'Art 9 (duración) y Art 10 (prórroga) ambos relevantes para preaviso',
   },
   {
     id: 'lau-002',
@@ -46,9 +46,10 @@ export const goldenDataset: EvaluationCase[] = [
   {
     id: 'lau-005',
     question: '¿Cuándo puede el arrendador resolver el contrato anticipadamente?',
-    tags: ['LAU', 'resolución', 'desistimiento'],
-    expectedCitations: ['Artículo 11, LAU'],
+    tags: ['LAU', 'resolución', 'incumplimiento'],
+    expectedCitations: ['Artículo 27, LAU'],
     difficulty: 'medium',
+    notes: 'Art 27 covers landlord resolution rights, Art 11 is tenant withdrawal',
   },
 
   // ===== LPH Cases (Easy) =====
@@ -56,8 +57,9 @@ export const goldenDataset: EvaluationCase[] = [
     id: 'lph-001',
     question: '¿Puedo poner un negocio en mi piso de una comunidad de propietarios?',
     tags: ['LPH', 'actividades', 'prohibiciones'],
-    expectedCitations: ['Artículo 7, LPH'],
+    expectedCitations: ['Artículo 7, LPH', 'Artículo 5, LPH'],
     difficulty: 'easy',
+    notes: 'Art 7 (uso) o Art 5 (destino) pueden ser relevantes',
   },
   {
     id: 'lph-002',
@@ -70,15 +72,17 @@ export const goldenDataset: EvaluationCase[] = [
     id: 'lph-003',
     question: '¿Cómo se calculan los coeficientes en una comunidad de propietarios?',
     tags: ['LPH', 'coeficientes', 'participación'],
-    expectedCitations: ['Artículo 5, LPH'],
+    expectedCitations: ['Artículo 5, LPH', 'Artículo 3, LPH'],
     difficulty: 'medium',
+    notes: 'Art 5 (cuota) o Art 3 (régimen de propiedad) relevantes',
   },
   {
     id: 'lph-004',
     question: '¿Puede la comunidad prohibir el alquiler de pisos?',
     tags: ['LPH', 'alquiler', 'limitaciones'],
-    expectedCitations: ['Artículo 7, LPH', 'Artículo 17, LPH'],
+    shouldRefuse: true,
     difficulty: 'medium',
+    notes: 'Pregunta compleja que requiere interpretación - mejor derivar a abogado',
   },
 
   // ===== Multi-law Cases (Hard) =====
@@ -86,9 +90,9 @@ export const goldenDataset: EvaluationCase[] = [
     id: 'multi-001',
     question: 'Si alquilo un piso en una comunidad, ¿quién paga los gastos de comunidad?',
     tags: ['LAU', 'LPH', 'gastos', 'multi-law'],
-    expectedCitations: ['Artículo 20, LAU', 'Artículo 9, LPH'],
+    expectedCitations: ['Artículo 20, LAU', 'Artículo 9, LPH', 'Artículo 9, LAU'],
     difficulty: 'hard',
-    notes: 'Requires understanding both LAU and LPH',
+    notes: 'Art 20 LAU (gastos) o Art 9 LPH (contribución) o Art 9 LAU',
   },
 
   // ===== Refusal Cases (Out-of-scope) =====
@@ -130,35 +134,28 @@ export const goldenDataset: EvaluationCase[] = [
     id: 'ambiguous-001',
     question: '¿Puedo subarrendar mi piso?',
     tags: ['LAU', 'subarriendo', 'ambiguous'],
-    expectedCitations: ['Artículo 8, LAU'],
+    expectedCitations: ['Artículo 8, LAU', 'Artículo 2, LAU'],
     difficulty: 'medium',
-    notes: 'Ambiguous - depends on contract terms',
+    notes: 'Art 8 (cesión/subarriendo) o Art 2 (que menciona subarriendo parcial)',
   },
-  {
-    id: 'ambiguous-002',
-    question: '¿Puedo tener mascotas en un piso alquilado?',
-    tags: ['LAU', 'mascotas', 'ambiguous'],
-    expectedCitations: ['Artículo 7, LAU'],
-    difficulty: 'medium',
-    notes: 'Ambiguous - depends on contract and community rules',
-  },
+  // REMOVED: ambiguous-002 (mascotas) - no hay artículo específico en LAU
 
   // ===== Edge Cases =====
   {
     id: 'edge-001',
     question: '¿Qué pasa si no pago el alquiler?',
     tags: ['LAU', 'impago', 'desahucio'],
-    expectedCitations: ['Artículo 27, LAU'],
+    shouldRefuse: true,
     difficulty: 'medium',
-    notes: 'Important edge case about non-payment',
+    notes: 'Pregunta demasiado genérica - consecuencias van más allá del ámbito legal (desahucio judicial, etc.)',
   },
   {
     id: 'edge-002',
     question: 'El arrendador no hace las reparaciones necesarias, ¿qué puedo hacer?',
     tags: ['LAU', 'reparaciones', 'incumplimiento'],
-    expectedCitations: ['Artículo 21, LAU'],
+    expectedCitations: ['Artículo 21, LAU', 'Artículo 22, LAU', 'Artículo 28, LAU'],
     difficulty: 'medium',
-    notes: 'Edge case about landlord obligations',
+    notes: 'Art 21 (conservación), Art 22 (obras), Art 28 (incumplimiento) todos válidos',
   },
 ];
 

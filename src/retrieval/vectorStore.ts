@@ -116,6 +116,11 @@ export async function queryChunks(
   topK: number = 5,
   filter?: Record<string, string>
 ): Promise<RetrievalResult[]> {
+  // Ensure store is initialized
+  if (!collection && !useLocalStore) {
+    await initVectorStore();
+  }
+
   if (useLocalStore) {
     return queryChunksLocal(queryEmbedding, topK, filter);
   }
